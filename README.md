@@ -1,5 +1,5 @@
 # Intrusion-Detection-and-Prevention-System-using-Snort-and-Fail2ban
-This project demonstrates the integration of Snort (a Network Intrusion Detection System) and Fail2Ban (a log-based Intrusion Prevention tool) for real-time detection and automated banning of malicious IP addresses in a simulated environment.
+
 
 
 ## **📖 Overview**
@@ -27,9 +27,7 @@ This project focused on building a lightweight intrusion detection and preventio
   🧰 Virtual Lab Deployment
     Set up and isolated multiple VMs on VirtualBox for secure, reproducible testing.
 
-
 ---
-
 
 ## **📦 Tools & Technologies**
 
@@ -45,5 +43,74 @@ This project focused on building a lightweight intrusion detection and preventio
 
 ● Oracle VirtualBox (v7.1.4) — Virtual lab environment.
 
+---
 
+## **🏗️ Lab Environment Setup**
+
+All components were installed on virtual machines running in Oracle VirtualBox under a bridged network to simulate realistic conditions. The Ubuntu VM hosts both Snort and Fail2Ban, while Kali Linux is used to simulate attacks.
+
+![Screenshot 2025-04-04 133351](https://github.com/user-attachments/assets/79a9b939-3c0f-41a9-9ae8-c40ff254aaba)
+
+VirtualBox interface showing all configured VMs (Ubuntu, Kali, Metasploitable, Windows).
+
+---
+
+## **⚙️ Snort Configuration**
+
+**Step 1: Installation**
+
+Snort was installed on the Ubuntu Server virtual machine to function as a signature-based Intrusion Detection System.
+
+![Screenshot 2025-03-25 170619](https://github.com/user-attachments/assets/225f362d-703d-4fdf-bd67-52cf4f6a865f)
+
+Terminal showing Snort installation
+
+##
+
+After installation, the version of Snort was verified using the snort -V command (Alternative to --version). This confirmed the system was running Snort version 2.9.20, which aligned with the project’s compatibility requirements.
+
+
+![Screenshot 2025-03-25 173407](https://github.com/user-attachments/assets/0340bdac-ea73-474f-b63f-8cdfad8e020d)
+
+Terminal showing Snort version
     
+##
+Configuration continued with editing the /etc/snort/snort.conf file. The HOME_NET variable was set to reflect the IP range of the internal virtual environment (192.168.1.0/24).
+##
+
+**Step 2: Custom Snort Rules**
+
+Custom rules were added to local.rules to detect malicious behavior such as ICMP floods, port scans and many more.
+
+![Screenshot 2025-04-16 152243](https://github.com/user-attachments/assets/6927f18f-875f-4353-b771-3d8f8dde8de2)
+
+Snort local.rules file with custom rule entries.
+
+ ##
+
+**Step 3: Validation**
+
+The configuration was validated using sudo snort -T -c /etc/snort/snort.conf
+
+![Screenshot 2025-03-25 175743](https://github.com/user-attachments/assets/2de2d2d6-80a8-4770-b2f9-6b6b37714ee1)
+
+Snort output confirming successful configuration with no errors.
+
+##
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
