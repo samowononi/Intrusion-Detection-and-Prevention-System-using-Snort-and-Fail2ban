@@ -99,8 +99,39 @@ Snort output confirming successful configuration with no errors.
 ##
 
 
+## **🔐 Fail2Ban Configuration**
 
 
+**Step 1: Installation**
+
+Fail2Ban was installed and enabled to start on boot.
+
+![Screenshot 2025-03-26 183854](https://github.com/user-attachments/assets/483408b8-d030-499c-9a65-e2502a4dbd26)
+
+Terminal output confirming Fail2Ban installation
+
+![Screenshot 2025-04-10 130004](https://github.com/user-attachments/assets/aa584840-158a-453f-9d99-74ba23ecaecd)
+
+Terminal output confirming Fail2Ban active status
+
+
+**Step 2: SSH Brute-Force Protection**
+
+Configured a jail in /etc/fail2ban/jail.local to monitor SSH and ban IPs after 3 failed login attempts.
+
+![Screenshot 2025-04-10 131007](https://github.com/user-attachments/assets/02c6d00a-62db-45ae-ac6f-ef7d4d556dac)
+
+SSH jail configuration in jail.local
+
+
+
+
+
+| Attack Type | Source	| Can Fail2Ban Block? |	How? |
+|-------------|---------|---------------------|------|
+| SSH Brute Force |	var/log/auth.log | Native | Already built-in |
+| Port Scanning	| Snort | Yes | Parse Snort alerts |
+| Ping Flood (ICMP) |	iptables / syslog |	Yes	| Log + custom jail |
 
 
 
