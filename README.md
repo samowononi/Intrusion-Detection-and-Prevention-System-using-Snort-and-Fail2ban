@@ -114,6 +114,7 @@ Terminal output confirming Fail2Ban installation
 
 Terminal output confirming Fail2Ban active status
 
+##
 
 **Step 2: SSH Brute-Force Protection**
 
@@ -123,9 +124,9 @@ Configured a jail in /etc/fail2ban/jail.local to monitor SSH and ban IPs after 3
 
 SSH jail configuration in jail.local
 
+##
 
-
-
+Summary of Fail2ban Prevention capability
 
 | Attack Type | Source	| Can Fail2Ban Block? |	How? |
 |-------------|---------|---------------------|------|
@@ -133,15 +134,85 @@ SSH jail configuration in jail.local
 | Port Scanning	| Snort | Yes | Parse Snort alerts |
 | Ping Flood (ICMP) |	iptables / syslog |	Yes	| Log + custom jail |
 
+This table highlights Fail2Ban’s flexibility in blocking different types of attacks by showing the log source, detection method, and whether native or custom configurations are required.
+
+##
+
+**Step 3: Preventing Port Scanning with Fail2Ban**
+
+Snort’s preprocessor sfPortscan was enabled in snort.conf to detect scanning behavior such as SYN and NULL scans. Once detected, Fail2Ban reads Snort's alerts and bans the offending IP via iptables.
 
 
+- **Snort Configuration**
+
+Enabled sfPortscan in snort.conf.
+
+![Screenshot 2025-04-19 135515](https://github.com/user-attachments/assets/220cb182-9be6-46db-b98e-b8183f9ce495)
+
+Snort port scan detection configuration
 
 
+- **Fail2Ban Jail Setup**
+
+Created /etc/fail2ban/jail.d/snort-portscan.local to monitor Snort logs.
+
+![Screenshot 2025-04-19 142712](https://github.com/user-attachments/assets/e4882862-3d05-4566-a438-34aee7aebc3c)
+
+Fail2Ban jail for Snort port scanning alerts
 
 
+- **Custom Filter**
+
+Defined a matching rule in /etc/fail2ban/filter.d/snort-portscan.conf.
+
+![Screenshot 2025-04-20 012226](https://github.com/user-attachments/assets/9e82bc7e-49da-4e3d-b4dd-7312af298577)
+
+Custom Fail2Ban filter for Snort portscan alerts
 
 
+- **Activation**
+Restarted Fail2Ban and confirmed the jail was active.
+
+![Screenshot 2025-04-20 014919](https://github.com/user-attachments/assets/17fcebe2-292f-4d0d-9bcd-b56e0a278f5a)
+
+Fail2Ban active jail for port scanning
+
+##
 
 
+**Step 4: Blocking Ping Floods with Fail2Ban**
+
+Since Fail2Ban can’t parse ICMP directly, iptables was configured to log excessive ping requests:
+
+sudo iptables -A INPUT -p icmp --icmp-type echo-request -m limit --limit 1/second -j LOG --log-prefix "PING FLOOD: "
+
+- **Logging Setup**
+
+Logged frequent ICMP echo-requests with a unique prefix.
+
+![Screenshot 2025-04-20 024019](https://github.com/user-attachments/assets/0a17874c-3c30-443e-bd8b-50b366d75567)
+
+ICMP flood logging rule using iptables
+
+- **Fail2Ban Filter & Jail**
+
+Created /etc/fail2ban/filter.d/ping-flood.conf to match the log prefix, and /etc/fail2ban/jail.d/ping-flood.conf for the jail config.
+  
+![Screenshot 2025-04-20 024232](https://github.com/user-attachments/assets/82aceac0-85aa-4b82-91c9-e6f7aa3f2062)
+
+Fail2Ban filter for ping flood detection
+
+![Screenshot 2025-04-20 024721](https://github.com/user-attachments/assets/11960446-4d58-4907-816d-43cac42e3585)
+
+Fail2Ban jail for ping flood detection
+
+
+- **Activation**
+
+Reloaded Fail2Ban and verified the ping-flood jail is working.
+
+![Screenshot 2025-04-20 032913](https://github.com/user-attachments/assets/2e551b70-344c-4d86-826e-ea4be3517f2e)
+
+Ping flood jail status and bans in Fail2Ban
 
 
