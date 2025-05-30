@@ -1,4 +1,4 @@
-# Intrusion-Detection-and-Prevention-System-using-Snort-and-Fail2ban
+# Intrusion Detection and Prevention System using Snort and Fail2ban
 
 
 
@@ -214,5 +214,46 @@ Reloaded Fail2Ban and verified the ping-flood jail is working.
 ![Screenshot 2025-04-20 032913](https://github.com/user-attachments/assets/2e551b70-344c-4d86-826e-ea4be3517f2e)
 
 Ping flood jail status and bans in Fail2Ban
+
+
+## **🔗 Snort & Fail2Ban Log Integration**
+
+To unify detection and logging, Snort and Fail2Ban were integrated into a single pipeline with persistent service control.
+
+**📁 Combined Log System**
+
+A custom script (/usr/local/bin/combine_logs_script.sh) merges:
+
+/var/log/snort/alert
+
+/var/log/fail2ban.log
+
+into a shared file: /var/log/snort_fail2ban.log.
+
+![image](https://github.com/user-attachments/assets/6cfc46a2-c1a4-455f-b52e-2cffe1c79a49)
+
+
+Each entry is tagged by source for easier parsing and analysis.
+
+-Screenshot Caption: Combined log script merging Snort and Fail2Ban outputs.-
+
+**🛠️ Systemd Service Setup**
+
+A custom systemd service was created to auto-start Snort, Fail2Ban, and the log combiner at boot.
+
+![Screenshot 2025-04-07 160442](https://github.com/user-attachments/assets/705a5b19-9049-4436-bf72-6b67aeee3506)
+
+Terminal output confirming the custom IDPS service is enabled and running.
+
+
+
+
+
+
+
+
+
+
+
 
 
