@@ -1,6 +1,6 @@
+![Intrusion Detection and Prevention System using Snort and Fail2ban](https://github.com/user-attachments/assets/b127fbe1-b05d-44a5-9302-cba0fbb7ce19)
+
 # Intrusion Detection and Prevention System using Snort and Fail2ban
-
-
 
 ## **📖 Overview**
 This project focused on building a lightweight intrusion detection and prevention system using Snort and Fail2Ban in a controlled virtual environment. Snort was configured to monitor network traffic for signature-based attacks, while Fail2Ban was set up to parse logs and automatically block malicious IP addresses. The two tools were integrated into a single logging workflow to provide a multi-layered defense mechanism against brute force, port scanning, and ICMP flood attacks. All simulated and tested using Kali Linux. The setup emulates how open-source tools can be combined to detect and mitigate network threats in real time.
