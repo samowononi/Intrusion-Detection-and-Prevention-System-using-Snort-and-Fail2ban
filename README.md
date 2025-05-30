@@ -245,12 +245,71 @@ A custom systemd service was created to auto-start Snort, Fail2Ban, and the log 
 
 Terminal output confirming the custom IDPS service is enabled and running.
 
+---
+
+## **🧪 Attack Simulations**
+
+To validate the effectiveness of Snort and Fail2Ban, three attacks were simulated from a Kali Linux VM targeting an Ubuntu server:
 
 
+**🔐 1. Brute Force SSH Attack**
 
+Multiple failed SSH logins were attempted from Kali to the target Ubuntu system (192.168.1.147).
 
+![image](https://github.com/user-attachments/assets/d6536213-62a3-4413-845a-049f48ad6e7c)
 
+Fail2Ban monitored /var/log/auth.log and banned the IP after exceeding the retry threshold.
 
+![image](https://github.com/user-attachments/assets/52b52a29-990f-49f2-98e7-9da99da12097)
+
+A follow-up SSH attempt returned Connection refused, confirming the IP was blocked.
+
+![image](https://github.com/user-attachments/assets/d8c8c635-252c-4f98-8d96-57a9ceefef9f)
+
+##
+
+**🌐 2. Port Scanning with Nmap**
+
+An Nmap SYN scan was used to probe open ports on the target machine (where Snort and Fail2Ban were installed): nmap -sS 192.168.1.147
+Alternatively, a more aggressive scan was also used: nmap -sS -p- -T4 192.168.1.147 
+
+![Screenshot 2025-04-20 015058](https://github.com/user-attachments/assets/d4a727e5-2057-4f02-a277-fde90d9d86d4)
+
+Snort detected the scan and logged it.
+
+![Screenshot 2025-04-20 020813](https://github.com/user-attachments/assets/96c3e738-4bff-4ed0-9b61-0bc6b12e0cbe)
+
+Fail2Ban parsed the alert and banned the attacker’s IP.
+
+![Screenshot 2025-04-20 014816](https://github.com/user-attachments/assets/dd387976-d907-4f3f-9aa4-d090d960aa86)
+
+![Screenshot 2025-04-20 014919](https://github.com/user-attachments/assets/03fb6336-c696-42c1-a5c2-214f2f9036c0)
+
+After the bantime (600s), the IP was unbanned.
+
+![Screenshot 2025-04-20 021434](https://github.com/user-attachments/assets/0833c1bd-6381-448f-be0d-7f5ca5865469)
+
+##
+
+**📶 3. ICMP Ping Flood**
+
+A flood of ICMP echo requests was sent using:
+
+ping -f -i 0.01 192.168.1.147
+
+![Screenshot 2025-04-20 033800](https://github.com/user-attachments/assets/fabea95a-757c-4e22-a9b9-5d86f865e14a)
+
+Fail2Ban detected the pattern and banned the IP under the ping-flood jail.
+
+![Screenshot 2025-04-20 033915](https://github.com/user-attachments/assets/f1e41e8e-12be-48ba-ae74-76d1000b0f73)
+
+![Screenshot 2025-04-20 034749](https://github.com/user-attachments/assets/9c3ea145-f825-4624-aeb0-9c807f747533)
+
+Ban lifted automatically after 10 minutes.
+
+![Screenshot 2025-04-20 044913](https://github.com/user-attachments/assets/a694e064-1a8f-4a8a-af95-c5ab7074e0d7)
+
+---
 
 
 
